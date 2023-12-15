@@ -1,0 +1,264 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <style>
+        @media (max-width: 40em) {
+            .data{
+                display: block;
+                justify-items: center;
+            }
+        }
+    </style>
+    <%- include('includes/navigation.ejs') %>
+
+    <div class="container" style="max-height: 100%; min-height: 650px; max-width: 1200px; min-width: 80%;">
+        <header class="main_header">
+            <h1 class="IOT_h1">IOT Garden</h1>
+        </header>
+        <% if (isAuthenticated) { %>
+            <div class="data">
+                <div class="data-item" id='div-temp' onclick="window.location='/chart-temperature';" style="display: flex;width: 100%; margin-bottom: 10px ;
+                    transition: all 0.3s;"
+                    onmouseover="this.style.backgroundColor='rgb(234, 127, 127)'; this.style.border='1px solid green';" onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';" 
+                    ;>
+                    <div class="icon-big icon-danger text-center" style="width: 100%; height: 150px;justify-content: center; align-items: center;">
+                        <i class="fas fa-temperature-high" style="font-size: 125px; padding-top: 10px; color: rgb(194, 56, 56);"></i>
+                    </div>
+                    
+                    <div style="width: 100%">
+                    <p class="data-label" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; justify-content: center; align-items: center; padding-top: 25px;">Temperature</p>
+                    <p class="data-value" style="padding-top: 10px;"><span id="temperature" style="padding-top: 40px;"><%= temperature %>°C</span></p>
+                    </div>
+                </div>
+                <div class="data-item" id='div-temp' onclick="window.location='/chart-soil-moisture';" style="display: flex;width: 100%; margin-bottom: 10px ;
+                    transition: all 0.3s;"
+                    onmouseover="this.style.backgroundColor='rgb(81, 27, 27)'; this.style.border='1px solid green';" onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';" 
+                    ;>
+                    <div class="icon-big icon-danger text-center" style="width: 100%; height: 150px;justify-content: center; align-items: center;">
+                        <img src="/image/11231980.png" style="width: 125px; padding-top: 10px; color: rgb(81, 27, 27)">
+                    </div>
+                    
+                    <div style="width: 100%">
+                        <p class="data-label" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; justify-content: center; align-items: center; padding-top: 25px;">Soil moisture</p>
+                        <p class="data-value" style="padding-top: 10px;"><span id="soil" style="padding-top: 40px;"><%= soil %>%</span></p>
+                    </div>
+                </div>
+
+                <div class="data-item" id='div-hum' onclick="window.location='/chart-humidity';" style="display: flex;width: 100%; ;
+                transition: all 0.3s;margin-bottom: 10px ;"
+                onmouseover="this.style.backgroundColor='rgb(9, 114, 140)'; this.style.border='1px solid green';" onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';">
+
+                    <div class="icon-big icon-info text-center" style="width: 100%; height: 150px;justify-content: center; align-items: center;">
+                        <i class="fas fa-tint" style="font-size: 125px; padding-top: 10px; color: rgb(0, 204, 255)"></i>
+                    </div>
+                    <div style="width: 100%">
+                        <p class="data-label" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; justify-content: center; align-items: center; padding-top: 25px;">Humidity</p>
+                        <p class="data-value" style="padding-top: 10px;"><span id="humidity" style="padding-top: 40px;"><%= humidity %>%</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="data">
+                <div class="data-item" style="width: 100%; height: 100%; padding: 30px; padding: 15px 10px;display: flex;flex-direction: column;  margin-bottom: 20px;">
+                    <div class="data-item" onclick="window.location='/chart-brightness';" style="display: flex;width: 100%;
+                    transition: all 0.3s;
+                    "
+                    onmouseover="this.style.backgroundColor='rgb(211, 227, 109)'; this.style.border='1px solid green';" onmouseout="this.style.backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';" 
+                    ;>
+                        <div class="icon-big icon-danger text-center" style="width: 100%; height: 150px;justify-content: center; align-items: center;">
+                            <i class="fas fa-sun" style="font-size: 125px; padding-top: 10px; color: orange;"></i>
+                        </div>
+                        <div style="width: 100%">
+                        <p class="data-label" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; justify-content: center; align-items: center; padding-top: 25px;color: rgb(121, 121, 57);">Brightness Level</p>
+                        <p class="data-value" style="padding-top: 10px;"><span id="brightness" style="padding-top: 40px;"><%= brightness %> Lux</span></p>
+                        </div>
+                    </div>  
+                    <div class="data-item" style="display: flex; width: 100%;height: 100%; ">
+                        <div 
+                    
+                        class="icon-big icon-info text-center" style="width: 50px; height: 100%;justify-content: center; align-items: center; padding-bottom: 10px;justify-content: center; align-items: center ;"
+                        
+                        style="width: 75px; height: 100%; margin-right: 40px; text-align: center; ">
+                            <i class="fas fa-lightbulb" style="font-size: 75px; color: yellow; margin-left: 30px;"></i>
+                        </div>
+                        <div style="display: flex; justify-content:center; align-items: center; margin-left: 50px;">
+                            <p style="font-size: 25px; font-weight: bold;color: rgb(107, 107, 44);">Light</p>
+                        </div>
+                        <label class="switch" style="margin-left: auto; ">
+                            <input type="checkbox" id="led-toggle" <%= Light ? 'checked' : '' %>>
+                            <span class="slider round"></span>
+                        </label>
+
+
+                    </div>
+                </div>
+                <div class="data-item" style="width: 100%; height: 100%; padding: 30px; padding: 19px 11px;display: flex;flex-direction: column;">
+                    <div class="data-item"
+                        style="width: 100%;
+                        display: flex;  height: 100%; margin-bottom: 20px;margin-top: 17px;">
+                        <div onclick="window.location='/history-door';"
+                        style="display: flex; border-radius: 5px;
+                        transition: all 0.3s;"
+                        onmouseover="this.style.backgroundColor='orange'; this.style.border='1px solid green';" onmouseout="this.style.   backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';"
+                        class="icon-big icon-info text-center" style="width: 50px; height: 100%;justify-content: center; align-items: center; padding-bottom: 10px;justify-content: center; align-items: center;margin-right: 20px ; ">
+                            <i class="fas fa-door-open" style="font-size: 75px; margin-bottom: 10px; color: gray"></i>
+                        </div>
+                        <div style="display: flex; justify-content:center; align-items: center; margin-left: 10px;">
+                            <p style="font-size: 25px; font-weight: bold;">Door</p>
+                        </div>
+
+                        <label class="switch" style="margin-left: auto;">
+                            <input type="checkbox" id="door-toggle" <%= door ? 'checked' : '' %>>
+                            <span id="door-toggle-id" class="slider round"> </span>
+                        </label>
+
+                    </div>
+                    <div class="data-item" style="display: flex; width: 100%;height: 100%; margin-top: 20px;">
+                        <div 
+                        onclick="window.location='/pump-shedule';"
+                        style="display: flex; border-radius: 5px;
+                        transition: all 0.3s;"
+                        onmouseover="this.style.backgroundColor='orange'; this.style.border='1px solid green';" onmouseout="this.style.   backgroundColor='#f0f0f0'; this.style.border='1px solid transparent';"
+                        class="icon-big icon-info text-center" style="width: 50px; height: 100%;justify-content: center; align-items: center; padding-bottom: 10px;justify-content: center; align-items: center ;"
+                        
+                        class="icon-big icon-info text-center" style="width: 75px; height: 100%; margin-right: 40px; text-align: center;">
+                            <i class="fas fa-pump-soap" style="font-size: 75px; margin-bottom: 10px; color: rgb(97, 97, 226);"></i>
+                        </div>
+                        <div style="display: flex; justify-content:center; align-items: center; margin-left: 40px;">
+                            <p style="font-size: 25px; font-weight: bold;">Pump</p>
+                        </div>
+                        <label class="switch" style="margin-left: auto;">
+                            <input type="checkbox" id="pump-toggle" <%= pump ? 'checked' : '' %>>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="welcome-item">
+                <p class="data-value">Welcome to your IOT garden webpage, please login to see details !!!</p>
+            </div>
+        <% } %>
+    </div>
+
+
+
+    <!-- Thêm tệp Firebase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+    // Cấu hình Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCOYDfXX2g7eQ2q35H1AhrCrC9s_MedTIo",
+        authDomain: "tkll-project-402e9.firebaseapp.com",
+        databaseURL: "https://tkll-project-402e9-default-rtdb.firebaseio.com",
+        projectId: "tkll-project-402e9",
+        storageBucket: "tkll-project-402e9.appspot.com",
+        messagingSenderId: "440382764725",
+        appId: "1:440382764725:web:36a2190a7d05f9bf8bb0fc",
+        measurementId: "G-QSDYXY6YP0"
+    };
+
+    // Khởi tạo Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Sử dụng Firebase Firestore
+    var db = firebase.firestore();
+
+
+    var pump_toggle = document.getElementById("pump-toggle");
+    var door_toggle =  document.getElementById("door-toggle");
+    var led_toggle =  document.getElementById("led-toggle");
+    pump_toggle.addEventListener("change", function() {
+        var isChecked = pump_toggle.checked;
+        
+
+        // Cập nhật dữ liệu trạng thái checkbox trong Firestore
+        db.collection("User").doc("Pump").update({
+            Pump: isChecked
+        });
+    });
+
+    door_toggle.addEventListener("change", function() {
+        
+        var isChecked = door_toggle.checked;
+        // Cập nhật dữ liệu trạng thái checkbox trong Firestore
+        db.collection("User").doc("Door").update({
+            Door: isChecked
+        });
+    });
+    led_toggle.addEventListener("change", function() {
+        
+        var isChecked = led_toggle.checked;
+        // Cập nhật dữ liệu trạng thái checkbox trong Firestore
+        db.collection("User").doc("Light").update({
+            Light: isChecked
+        });
+    });
+    let isProcessing = false;
+
+    setInterval(async () => {
+        if ('<%= JSON.stringify(isAuthenticated) %>' == "true" && !isProcessing) {
+            isProcessing = true;
+
+            try {
+                data = await db.collection("User").doc("data").get()
+                warning = data.data()["warning"]
+                
+                if (warning) {
+                    await Swal.fire({
+                        title: "Warning",
+                        text: "Someone wants to break in !!!",
+                        icon: "warning",
+                        confirmButtonColor: "#d33"
+                    });
+
+                    await db.collection("User").doc("data").update({
+                        warning: false
+                    });
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                isProcessing = false;
+            }
+        }
+    }, 1000);
+
+    </script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('data-update',async ({ temperature, humidity, brightness, soil}) => {
+            document.getElementById('temperature').textContent = `${temperature}°C`;
+            document.getElementById('humidity').textContent = `${humidity}%`;
+            document.getElementById('brightness').textContent = `${brightness} Lux`;
+            document.getElementById('soil').textContent = `${soil}%`;
+        });
+        socket.on('data-door-update',async () => {
+            const docRef = db.collection("User").doc("Door");
+            const doc = await docRef.get();
+            if(doc.data().Door != document.getElementById("door-toggle").checked ){
+                document.getElementById("door-toggle").checked = doc.data().Door
+            }
+        });
+        socket.on('data-pump-update',async () => {
+            const docRef = db.collection("User").doc("Pump");
+            const doc = await docRef.get();
+            if(doc.data().Pump != document.getElementById("pump-toggle").checked){
+                document.getElementById("pump-toggle").checked = doc.data().Pump
+            }
+        });
+        socket.on('data-light-update',async () => {
+            const docRef = db.collection("User").doc("Light");
+            const doc = await docRef.get();
+            if(doc.data().Light != document.getElementById("led-toggle").checked ){
+                document.getElementById("led-toggle").checked = doc.data().Light
+            }
+        });
+
+    </script>
+<%- include('includes/end.ejs') %>

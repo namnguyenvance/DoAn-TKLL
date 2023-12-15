@@ -1,0 +1,120 @@
+<%- include('includes/head.ejs') %>
+  <style>
+    /* CSS để tạo giao diện đẹp cho danh sách */
+    .container {
+      max-width: 2000 px;
+      margin: 0 auto;
+    }
+    
+    .frame-list {
+      list-style: none;
+      padding: 0;
+      border: 1px solid #3498db;
+      border-radius: 10px;
+      background-color: #f1f1f1;
+    }
+    
+    .frame-list-item {
+      padding: 10px;
+      border-bottom: 1px solid #3498db;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      color: #3498db;
+    }
+    
+    .frame-list-item:last-child {
+      border-bottom: none;
+    }
+    
+    .frame-list-item span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body
+style="
+display: flex;
+justify-items: center;
+align-items: center;
+"
+>
+    <%- include('includes/navigation.ejs') %>
+    <main>
+    <% if (access.length > 0) { %>
+    <div class="container" style="max-width: 1000px; max-height: 600px; background-color: #fff; border-radius: 10px; border-block-start-width: 2px; border-width: 2px; border-color:green;border-style: solid;      overflow: hidden; 
+    overflow-y: scroll;
+    " >
+        <div style="  font-weight: bold; font-size: 20px; color: green ;
+          margin-top: 30px; margin-bottom: 30px ; text-align: center; 
+          "> HISTORY ACCESS DOOR
+        </div>
+        <div>
+            <ul class="frame-list">
+              <% access.forEach(access => { %>
+              <li class="frame-list-item">
+                <span style="color: gray;padding: 15px;">Time: <%= access.createdAt %></span>
+                <span style="color: #e74c3c; padding: 15px;">Message: <%= access.message %></span>
+                
+              </li>
+              <% }); %>
+            </ul>
+        </div>
+      </div>
+    <% } else { %>
+      <h1>No access yet!</h1>
+    <% } %>
+    <script src="/public/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCOYDfXX2g7eQ2q35H1AhrCrC9s_MedTIo",
+        authDomain: "tkll-project-402e9.firebaseapp.com",
+        databaseURL: "https://tkll-project-402e9-default-rtdb.firebaseio.com",
+        projectId: "tkll-project-402e9",
+        storageBucket: "tkll-project-402e9.appspot.com",
+        messagingSenderId: "440382764725",
+        appId: "1:440382764725:web:36a2190a7d05f9bf8bb0fc",
+        measurementId: "G-QSDYXY6YP0"
+      };
+
+      // Khởi tạo Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Sử dụng Firebase Firestore
+      var db = firebase.firestore();
+      let isProcessing = false;
+
+      setInterval(async () => {
+          if ('<%= JSON.stringify(isAuthenticated) %>' == "true" && !isProcessing) {
+              isProcessing = true;
+
+              try {
+                  data = await db.collection("User").doc("data").get()
+                  warning = data.data()["warning"]
+                  
+                  if (warning) {
+                      await Swal.fire({
+                          title: "Warning",
+                          text: "Someone wants to break in !!!",
+                          icon: "warning",
+                          confirmButtonColor: "#d33"
+                      });
+
+                      await db.collection("User").doc("data").update({
+                          warning: false
+                      });
+                  }
+              } catch (error) {
+                  console.error("Error:", error);
+              } finally {
+                  isProcessing = false;
+              }
+          }
+      }, 1000);
+    </script>
+<%- include('includes/end.ejs') %>

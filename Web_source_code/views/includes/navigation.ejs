@@ -1,0 +1,74 @@
+<div class="backdrop"></div>
+<header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list"> 
+            <li class="main-header__item">
+                <a href="/" style="font-weight: bold;">Home Page </a>
+            </li>
+            <% if (isAuthenticated) { %>
+                <li class="main-header__item">
+                    <a href="/history_access">History access</a>
+                </li>
+            <% } %>
+        </ul>
+        <ul class="main-header__item-list">
+            <% if (!isAuthenticated) { %>
+                <li class="main-header__item">
+                    <a href="/login">Log in</a>
+                </li>
+                <li class="main-header__item">
+                    <a href="/signup">Sign up</a>
+                </li>
+            <% } else { %>
+                <li class="main-header__item">
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Log out</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+        <div style="margin-left: 800px;">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" 
+                style="height: 37.6px; width: 206px; margin-bottom: 5px; border-radius: 10px; margin-right: 4px; font-size: 17px;
+                padding: 6px 12px;
+                ;"
+                >
+                <button class="btn btn-outline-success" style="padding: 8px; border-radius: 5px;" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+
+
+
+<nav class="mobile-nav" style="background-color:#316837;">
+    <ul class="mobile-nav__item-list" style="margin-top: 20px;">
+        <li class="mobile-nav__item">
+            <a href="/" style="font-weight: bold;">Home Page </a>
+        </li>
+        <% if (isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a href="/history_access">History access</a>
+            </li>
+        <% } %>
+        <% if (!isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a href="/login">Log in</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a href="/signup">Sign up</a>
+            </li>
+        <% } else { %>
+            <li class="mobile-nav__item">
+                <form action="/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit">Log out</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
+</nav>

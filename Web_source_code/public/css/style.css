@@ -1,0 +1,166 @@
+body {
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  min-height: 100%; 
+  max-height: 100%;
+  display: flex;
+  background-color: lightgray;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 20px;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column; /* Hiển thị nhiệt độ và độ ẩm theo chiều dọc */
+  align-items: center;
+}
+
+.main_header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.IOT_h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.data {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between; /* Hiển thị nhiệt độ và độ ẩm ở hai bên */
+  width: 100%;
+  gap: 25px;
+
+}
+
+.data-item {
+  padding: 10px;
+  width: 100%; /* Adjust the size of each data item */
+  background-color: #f0f0f0; /* Light gray background */
+  border: 1px solid #ccc; /* Light gray border */
+  margin: 0px 0px; /* Spacing between items */
+  display: inline-block; /* Display items inline for a grid layout */
+  box-sizing: border-box; /* Include padding and border in item size */
+  text-align: center; /* Center align text */
+  border-radius: 5px; /* Add rounded corners */
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
+.data-label {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #444; /* Dark gray label text */
+}
+.data-labelx {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #444; /* Dark gray label text */
+}
+
+.data-value {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+  color: #1e4875; /* Blue value text */
+}
+.welcome-item{
+  padding: 10px;
+  width: 80%; /* Adjust the size of each data item */
+  background-color: #f0f0f0; /* Light gray background */
+  border: 1px solid #ccc; /* Light gray border */
+  margin: 10px; /* Spacing between items */
+  display: inline-block; /* Display items inline for a grid layout */
+  box-sizing: border-box; /* Include padding and border in item size */
+  text-align: center; /* Center align text */
+  border-radius: 5px; /* Add rounded corners */
+}
+.pin-toggle {
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 50px;
+  width: 5em;
+  height: 1em;
+}
+.pin-toggle input,
+.pin-toggle input:active {
+  border: 0;
+  height: 0;
+  opacity: 0;
+  outline: none;
+  position: absolute;
+  left: -5000px;
+  width: 0;
+}
+.pin-toggle label {
+  background: #f8f8f8;
+  border: 0.2em solid #ddd;
+  border-radius: 1.6em;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  height: 3.2em;
+  padding: 1em;
+  position: relative;
+  transition: 0.3s ease-out;
+  width: 100%;
+}
+.pin-toggle label::before {
+  background: #ffffff;
+  border-radius: 1.4em;
+  box-shadow: 0 0.3em 0.3em rgba(0, 0, 0, 0.2), 0 0 0 0.1em #ddd;
+  content: "";
+  display: block;
+  height: 2.8em;
+  left: 0;
+  position: absolute;
+  right: auto;
+  text-indent: 4em;
+  top: 0;
+  transition: 0.25s ease-in-out;
+  width: 2.8em;
+  z-index: 2;
+}
+.pin-toggle label::after {
+  background: #f8f8f8;
+  border-radius: 1.4em;
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: 0.25s ease-in-out;
+  width: 2.8em;
+  z-index: 1;
+}
+.pin-toggle input:active + label::before {
+  width: 3.2em;
+}
+.pin-toggle input:checked + label {
+  border-color:  #00695c;
+  box-shadow: inset 0 0 0 2em #00695c;
+}
+.pin-toggle input:checked + label::after {
+  background-color:  #00695c;
+  right: 1.4em;
+  width: 100%;
+}
+.pin-toggle input:checked + label::before {
+  box-shadow: 0 0 0 0.1em transparent, 0 0.3em 0.3em rgba(0, 0, 0, 0.3);
+  left: calc(100% - 2.8em);
+}
+.pin-toggle input:checked:active + label::before {
+  left: calc(100% - 3.2em);
+}

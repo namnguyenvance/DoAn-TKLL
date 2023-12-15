@@ -1,0 +1,237 @@
+<%- include('includes/head.ejs') %>
+  <style>
+    .time-form-frame{
+      display: flex;
+      gap: 70px;
+    } 
+    @media (max-width: 600px) {
+      .time-form-frame {
+          display: block;
+          justify-items: center;
+      }
+    }
+    .frame-list {
+      list-style: none;
+      padding: 0;
+      border: 1px solid #3498db;
+      border-radius: 10px;
+      background-color: #f1f1f1;
+    }
+    
+    .frame-list-item {
+      max-width: 100%;
+      padding: 10px;
+      border-bottom: 1px solid #3498db;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      color: #3498db;
+    }
+    
+    .frame-list-item:last-child {
+      border-bottom: none;
+    }
+    
+    .frame-list-item span {
+      font-weight: bold;
+    }
+    .time-input-container {
+      display: flex;
+      align-items: center;
+      max-width: 100%;
+      max-height: 100%;
+      border-style: solid;
+      border-width: 4px;
+      border-color: green;
+      border-radius: 7px;
+      padding: 5px;
+      background-color: rgb(92, 255, 92);
+    }
+
+    .input-label {
+      margin-right: 10px;
+      font-size: 30px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: bold;
+    }
+
+    .time-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 30px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: bold;
+    }
+
+    .custom-calendar-icon {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Định dạng biểu tượng lịch */
+    .custom-calendar-icon::before {
+      content: "\1F4C5"; /* Unicode character for a calendar icon */
+    }
+  </style>
+</head>
+<body
+style="
+display: flex;
+justify-items: center;
+align-items: center;
+
+"
+>
+    <%- include('includes/navigation.ejs') %>
+    <div class="container" style="
+      max-width: 1100px;
+      max-height: 100%;
+      background-color: white;
+      border-style: solid;
+      border-width: 4px;
+      border-color: green;
+      border-radius: 7px;
+      padding: 5px;
+      place-items: center;
+      
+    ">
+
+      <div style="  font-weight: bold; font-size: 30px; color: green ;
+      text-align: center;
+        "> PUMP SCHEDULE TIME
+      </div>
+
+
+      <div style="
+      max-width: 1000%;
+      display: flex;
+      justify-content: center;
+      height: 300px;
+      overflow: hidden; 
+      overflow-y: scroll;
+      ">
+        <ul class="frame-list" style="max-width: 100%;">
+          <% schedules.forEach(schedules => { %>
+          <li class="frame-list-item" >
+            <span style="color: gray;padding: 10px;">Hour: <%= schedules.hour  %></span>
+            <span style="color: gray;padding: 10px;">Minute: <%= schedules.minute  %></span>
+            <span style="color: #e74c3c; padding: 10px;">Intervals: <%= schedules.intervals %> minute(s)</span>
+            <form class="login-form" action="/pump-shedule-delete" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="id" value="<%= schedules._id %>">
+              <button type="submit" class="btn btn-danger" style="margin-left: 30px;">Delete</button>
+            </form>
+          </li>
+          <% }); %>
+        </ul>
+      </div>
+
+      <div style="margin: 10px;font-weight: bold; font-size: 20px; color: green ; ">
+        <div>
+          <p>Register time to pump everyday</p>
+        </div>
+        <div class="container moblie" style="
+        border-style: solid;
+        border-width: 4px;
+        border-color: green;
+        border-radius: 7px;
+        padding-left: 20px;
+        padding: 5px;
+        "
+        id="moblie"
+        >  
+          <form class="time-form" action="/pump-shedule" method="POST"
+          style="display: flex; gap: 2em;"
+          >
+            <div class="time-form-frame">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="time-input-container" style="max-width: 100%; max-height: 100%;" >
+                  <label class="input-label" for="time">Time:   
+                  </label>
+                  <input type="time" class="time-input" id="time" name="time">
+              </div>
+            
+              <div class="time-input-container" style="padding: 10px;
+                max-width: 100%;;"
+                >
+                  <label for="Intervals">Intervals: </label>
+                  <input style="padding: 7px; max-width: 100px;
+                  margin-left: 20px;
+                  border-width: 4px;
+                  border-color: green;
+                  border-radius: 7px;
+                  padding-left: 20px;
+                  " type="text" name="intervals" id="intervals">
+                  <label style="margin-left: 20px;" for="Intervals">minutes</label>
+              </div>
+              <button type="submit" class="btn btn-success" id="moblie" style="max-height: 100%;">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCOYDfXX2g7eQ2q35H1AhrCrC9s_MedTIo",
+        authDomain: "tkll-project-402e9.firebaseapp.com",
+        databaseURL: "https://tkll-project-402e9-default-rtdb.firebaseio.com",
+        projectId: "tkll-project-402e9",
+        storageBucket: "tkll-project-402e9.appspot.com",
+        messagingSenderId: "440382764725",
+        appId: "1:440382764725:web:36a2190a7d05f9bf8bb0fc",
+        measurementId: "G-QSDYXY6YP0"
+      };
+
+      // Khởi tạo Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Sử dụng Firebase Firestore
+      var db = firebase.firestore();
+      let isProcessing = false;
+
+      setInterval(async () => {
+          if ('<%= JSON.stringify(isAuthenticated) %>' == "true" && !isProcessing) {
+              isProcessing = true;
+
+              try {
+                  data = await db.collection("User").doc("data").get()
+                  warning = data.data()["warning"]
+                  
+                  if (warning) {
+                      await Swal.fire({
+                          title: "Warning",
+                          text: "Someone wants to break in !!!",
+                          icon: "warning",
+                          confirmButtonColor: "#d33"
+                      });
+
+                      await db.collection("User").doc("data").update({
+                          warning: false
+                      });
+                  }
+              } catch (error) {
+                  console.error("Error:", error);
+              } finally {
+                  isProcessing = false;
+              }
+          }
+      }, 1000);
+    </script>
+
+    <%- include('includes/end.ejs') %>
